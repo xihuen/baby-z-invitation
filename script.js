@@ -799,5 +799,25 @@ overlay
 });
 
 /* =====================================
+   MAIN BACK TO TOP BUTTON
+===================================== */
+
+const backTopMain = document.getElementById("backTopMain");
+
+if (backTopMain) {
+
+    backTopMain.addEventListener("click", function (e) {
+
+        e.preventDefault();
+
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+
+    });
+
+}
+/* =====================================
    END OF SCRIPT
 ===================================== */
