@@ -28,6 +28,9 @@ document.getElementById("bgMusic");
 const backTop =
 document.getElementById("backTop");
 
+const backTopMain =
+document.getElementById("backTopMain");
+
 /* =====================================
    Loading Screen
 ===================================== */
@@ -57,6 +60,8 @@ setTimeout(()=>{
 welcomeScreen.style.display="none";
 
 website.style.display="block";
+
+backTop.style.display="none";
 
 window.scrollTo({
 
@@ -110,6 +115,20 @@ musicPlaying=false;
    Back To Top
 ===================================== */
 
+function goToTop(){
+
+window.scrollTo({
+
+top:0,
+
+behavior:"smooth"
+
+});
+
+}
+
+backTop.style.display="none";
+
 window.addEventListener("scroll",()=>{
 
 if(window.scrollY>500){
@@ -124,17 +143,17 @@ backTop.style.display="none";
 
 });
 
-backTop.addEventListener("click",()=>{
+if(backTop){
 
-window.scrollTo({
+backTop.addEventListener("click",goToTop);
 
-top:0,
+}
 
-behavior:"smooth"
+if(backTopMain){
 
-});
+backTopMain.addEventListener("click",goToTop);
 
-});
+}
 
 /* =====================================
    Dynamic Greeting
