@@ -1,42 +1,295 @@
-/* =====================================
-   BABY Z INVITATION
-   Premium Script
-===================================== */
+/* ==========================================================
+   ZAVIER MYLES INVITATION WEBSITE
+   Version Ultimate
+   script.js
+   PART 1
+========================================================== */
 
 document.addEventListener("DOMContentLoaded", () => {
 
-const intro = document.getElementById("intro");
-const enterButton = document.getElementById("enterButton");
+const loadingScreen =
+document.getElementById("loading-screen");
 
-/* -----------------------------
-   OPEN INVITATION
------------------------------ */
+const welcomeScreen =
+document.getElementById("welcome-screen");
 
-enterButton.addEventListener("click", () => {
+const website =
+document.getElementById("website");
 
-    intro.style.opacity = "0";
+const openInvitation =
+document.getElementById("openInvitation");
 
-    intro.style.pointerEvents = "none";
+const musicButton =
+document.getElementById("musicButton");
 
-    setTimeout(() => {
+const bgMusic =
+document.getElementById("bgMusic");
 
-        intro.style.display = "none";
+const backTop =
+document.getElementById("backTop");
 
-    },900);
+/* =====================================
+   Loading Screen
+===================================== */
+
+setTimeout(() => {
+
+loadingScreen.style.opacity = "0";
+
+setTimeout(() => {
+
+loadingScreen.style.display = "none";
+
+},800);
+
+},1800);
+
+/* =====================================
+   Open Invitation
+===================================== */
+
+openInvitation.addEventListener("click",()=>{
+
+welcomeScreen.style.opacity="0";
+
+setTimeout(()=>{
+
+welcomeScreen.style.display="none";
+
+website.style.display="block";
+
+window.scrollTo({
+
+top:0,
+
+behavior:"smooth"
 
 });
 
-/* -----------------------------
-   SCROLL REVEAL
------------------------------ */
+},700);
 
-const cards = document.querySelectorAll(
+/* Attempt to autoplay music */
 
-".card,.section h2,.gallery img,.hero-overlay"
+bgMusic.play().catch(()=>{
+
+console.log("Autoplay prevented.");
+
+});
+
+});
+
+/* =====================================
+   Music Button
+===================================== */
+
+let musicPlaying=true;
+
+musicButton.addEventListener("click",()=>{
+
+if(bgMusic.paused){
+
+bgMusic.play();
+
+musicButton.textContent="🎵";
+
+musicPlaying=true;
+
+}else{
+
+bgMusic.pause();
+
+musicButton.textContent="🔇";
+
+musicPlaying=false;
+
+}
+
+});
+
+/* =====================================
+   Back To Top
+===================================== */
+
+window.addEventListener("scroll",()=>{
+
+if(window.scrollY>600){
+
+backTop.style.display="flex";
+
+}else{
+
+backTop.style.display="none";
+
+}
+
+});
+
+backTop.addEventListener("click",()=>{
+
+window.scrollTo({
+
+top:0,
+
+behavior:"smooth"
+
+});
+
+});
+
+/* =====================================
+   Dynamic Greeting
+===================================== */
+
+const greeting =
+
+document.getElementById(
+
+"dynamicGreeting"
 
 );
 
-const observer = new IntersectionObserver(
+if(greeting){
+
+const hour =
+
+new Date().getHours();
+
+let text="";
+
+if(hour<12){
+
+text="Good Morning!";
+
+}
+
+else if(hour<18){
+
+text="Good Afternoon!";
+
+}
+
+else{
+
+text="Good Evening!";
+
+}
+
+greeting.textContent=text;
+
+}
+
+/* End DOM Loaded */
+
+});
+
+/* =====================================
+   LIVE COUNTDOWN
+===================================== */
+
+const eventDate = new Date(
+
+"August 9, 2026 09:30:00"
+
+).getTime();
+
+const days =
+document.getElementById("days");
+
+const hours =
+document.getElementById("hours");
+
+const minutes =
+document.getElementById("minutes");
+
+const seconds =
+document.getElementById("seconds");
+
+function updateCountdown(){
+
+const now = new Date().getTime();
+
+const distance = eventDate - now;
+
+if(distance <= 0){
+
+if(days) days.textContent="00";
+if(hours) hours.textContent="00";
+if(minutes) minutes.textContent="00";
+if(seconds) seconds.textContent="00";
+
+return;
+
+}
+
+const d = Math.floor(
+
+distance/(1000*60*60*24)
+
+);
+
+const h = Math.floor(
+
+(distance%(1000*60*60*24))/
+
+(1000*60*60)
+
+);
+
+const m = Math.floor(
+
+(distance%(1000*60*60))/
+
+(1000*60)
+
+);
+
+const s = Math.floor(
+
+(distance%(1000*60))/
+
+1000
+
+);
+
+if(days) days.textContent =
+String(d).padStart(2,"0");
+
+if(hours) hours.textContent =
+String(h).padStart(2,"0");
+
+if(minutes) minutes.textContent =
+String(m).padStart(2,"0");
+
+if(seconds) seconds.textContent =
+String(s).padStart(2,"0");
+
+}
+
+updateCountdown();
+
+setInterval(updateCountdown,1000);
+
+/* =====================================
+   SCROLL REVEAL
+===================================== */
+
+const revealElements =
+
+document.querySelectorAll(
+
+".glass-card, .summary-card, .timeline-item, .event-card, .parent-card, .dress-card"
+
+);
+
+revealElements.forEach(element=>{
+
+element.classList.add("fade-up");
+
+});
+
+const observer =
+
+new IntersectionObserver(
 
 (entries)=>{
 
@@ -54,177 +307,426 @@ entry.target.classList.add("show");
 
 {
 
-threshold:.15
+threshold:0.15
 
 }
 
 );
 
-cards.forEach(card=>{
+revealElements.forEach(element=>{
 
-card.classList.add("fade");
-
-observer.observe(card);
+observer.observe(element);
 
 });
-
-});/* =====================================
-   LIVE COUNTDOWN
-===================================== */
-
-const targetDate = new Date("August 9, 2026 09:30:00").getTime();
-
-function updateCountdown(){
-
-const now = new Date().getTime();
-
-const distance = targetDate - now;
-
-if(distance <= 0){
-
-document.getElementById("days").innerHTML="0";
-document.getElementById("hours").innerHTML="0";
-document.getElementById("minutes").innerHTML="0";
-document.getElementById("seconds").innerHTML="0";
-
-return;
-
-}
-
-const days=Math.floor(distance/(1000*60*60*24));
-
-const hours=Math.floor((distance%(1000*60*60*24))/(1000*60*60));
-
-const minutes=Math.floor((distance%(1000*60*60))/(1000*60));
-
-const seconds=Math.floor((distance%(1000*60))/1000);
-
-document.getElementById("days").innerHTML=days;
-document.getElementById("hours").innerHTML=hours;
-document.getElementById("minutes").innerHTML=minutes;
-document.getElementById("seconds").innerHTML=seconds;
-
-}
-
-updateCountdown();
-
-setInterval(updateCountdown,1000);
 
 /* =====================================
-   COUNTDOWN PULSE
+   HERO PARALLAX
 ===================================== */
 
-const boxes=document.querySelectorAll(".time-box");
+const heroBackground =
 
-setInterval(()=>{
+document.querySelector(
 
-boxes.forEach(box=>{
+".hero-background"
 
-box.animate([
+);
 
-{
-transform:"scale(1)"
-},
+window.addEventListener(
 
-{
-transform:"scale(1.05)"
-},
+"scroll",
 
-{
-transform:"scale(1)"
+()=>{
+
+if(!heroBackground) return;
+
+const offset =
+
+window.pageYOffset;
+
+heroBackground.style.transform =
+
+`translateY(${offset*0.25}px) scale(1.08)`;
+
 }
 
-],{
-
-duration:700
-
-});
-
-});
-
-},1000);
+);
 
 /* =====================================
-   FLOATING SUNLIGHT PARTICLES
+   SMOOTH SECTION LINKS
 ===================================== */
 
-function createParticle(){
+document
 
-const particle=document.createElement("div");
+.querySelectorAll('a[href^="#"]')
 
-particle.className="particle";
+.forEach(link=>{
 
-particle.style.left=Math.random()*100+"vw";
+link.addEventListener(
 
-particle.style.animationDuration=
-(8+Math.random()*6)+"s";
+"click",
 
-particle.style.opacity=
-Math.random();
+function(e){
 
-particle.style.width=
-(6+Math.random()*10)+"px";
+const target =
 
-particle.style.height=
-particle.style.width;
+document.querySelector(
 
-document.body.appendChild(particle);
+this.getAttribute("href")
+
+);
+
+if(target){
+
+e.preventDefault();
+
+target.scrollIntoView({
+
+behavior:"smooth",
+
+block:"start"
+
+});
+
+}
+
+}
+
+);
+
+});
+
+/* =====================================
+   BUTTON RIPPLE EFFECT
+===================================== */
+
+document
+
+.querySelectorAll(
+
+".primary-button, .secondary-button"
+
+)
+
+.forEach(button=>{
+
+button.addEventListener(
+
+"click",
+
+function(e){
+
+const ripple =
+
+document.createElement("span");
+
+const size =
+
+Math.max(
+
+this.clientWidth,
+
+this.clientHeight
+
+);
+
+const rect =
+
+this.getBoundingClientRect();
+
+ripple.style.width=size+"px";
+ripple.style.height=size+"px";
+
+ripple.style.left=
+
+e.clientX-rect.left-size/2+"px";
+
+ripple.style.top=
+
+e.clientY-rect.top-size/2+"px";
+
+ripple.className="ripple";
+
+this.appendChild(ripple);
 
 setTimeout(()=>{
 
-particle.remove();
+ripple.remove();
 
-},15000);
-
-}
-
-setInterval(createParticle,700);
-
-/* =====================================
-   PARALLAX HERO
-===================================== */
-
-window.addEventListener("scroll",()=>{
-
-const hero=document.querySelector(".hero");
-
-let offset=window.pageYOffset;
-
-hero.style.backgroundPositionY=(offset*0.4)+"px";
-
-});/* =====================================
-   SHARE INVITATION
-===================================== */
-
-const shareButton = document.getElementById("shareButton");
-
-if(shareButton){
-
-shareButton.addEventListener("click",async()=>{
-
-if(navigator.share){
-
-try{
-
-await navigator.share({
-
-title:"Baby Z Baptism & First Birthday",
-
-text:"You're invited to Baby Z's Baptism & First Birthday!",
-
-url:window.location.href
+},600);
 
 });
 
-}catch(e){}
+});
+
+/* =====================================
+   GODPARENT SEARCH
+===================================== */
+
+const godparentSearch =
+document.getElementById("godparentSearch");
+
+if(godparentSearch){
+
+godparentSearch.addEventListener("keyup",function(){
+
+const keyword =
+this.value.toLowerCase();
+
+document
+.querySelectorAll(".godparent-list li")
+.forEach(item=>{
+
+const name =
+item.textContent.toLowerCase();
+
+item.style.display =
+name.includes(keyword)
+? "list-item"
+: "none";
+
+});
+
+});
+
+}
+
+/* =====================================
+   DIGITAL GUESTBOOK
+===================================== */
+
+const guestbookForm =
+document.getElementById("guestbookForm");
+
+const guestbookMessages =
+document.getElementById("guestbookMessages");
+
+let messages =
+
+JSON.parse(
+
+localStorage.getItem("zavierGuestbook")
+
+)||[];
+
+function renderGuestbook(){
+
+if(!guestbookMessages) return;
+
+guestbookMessages.innerHTML="";
+
+messages.forEach(message=>{
+
+const card=
+document.createElement("div");
+
+card.className="guest-message";
+
+card.innerHTML=`
+
+<h4>${message.name}</h4>
+
+<p>${message.message}</p>
+
+`;
+
+guestbookMessages.appendChild(card);
+
+});
+
+}
+
+renderGuestbook();
+
+if(guestbookForm){
+
+guestbookForm.addEventListener("submit",function(e){
+
+e.preventDefault();
+
+const name=
+
+document
+.getElementById("guestName")
+.value.trim();
+
+const message=
+
+document
+.getElementById("guestMessage")
+.value.trim();
+
+if(name===""||message==="") return;
+
+messages.unshift({
+
+name,
+
+message
+
+});
+
+localStorage.setItem(
+
+"zavierGuestbook",
+
+JSON.stringify(messages)
+
+);
+
+renderGuestbook();
+
+guestbookForm.reset();
+
+alert("Thank you for leaving a message for Zavier Myles!");
+
+});
+
+}
+
+/* =====================================
+   SHARE INVITATION
+===================================== */
+
+function shareInvitation(){
+
+const shareData={
+
+title:
+
+"Zavier Myles Baptism & First Birthday",
+
+text:
+
+"You're invited to celebrate the Baptism and First Birthday of Zavier Myles!",
+
+url:
+
+window.location.href
+
+};
+
+if(navigator.share){
+
+navigator.share(shareData);
 
 }else{
 
-navigator.clipboard.writeText(window.location.href);
+navigator.clipboard.writeText(
 
-alert("Invitation link copied!");
+window.location.href
+
+);
+
+alert(
+
+"Invitation link copied to clipboard."
+
+);
 
 }
+
+}
+
+const shareButton=
+
+document.getElementById(
+
+"shareInvitation"
+
+);
+
+if(shareButton){
+
+shareButton.addEventListener(
+
+"click",
+
+shareInvitation
+
+);
+
+}
+
+const footerShare=
+
+document.getElementById(
+
+"shareFooter"
+
+);
+
+if(footerShare){
+
+footerShare.addEventListener(
+
+"click",
+
+shareInvitation
+
+);
+
+}
+
+/* =====================================
+   SAVE TO CALENDAR
+===================================== */
+
+const calendarButton=
+
+document.getElementById(
+
+"saveCalendar"
+
+);
+
+if(calendarButton){
+
+calendarButton.addEventListener(
+
+"click",
+
+()=>{
+
+const calendarFile=`BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+SUMMARY:Zavier Myles Baptism & First Birthday
+DTSTART:20260809T013000Z
+DTEND:20260809T070000Z
+LOCATION:Our Lady of La Paz Parish Church, Makati City
+DESCRIPTION:Join us as we celebrate Zavier Myles' Baptism and First Birthday.
+END:VEVENT
+END:VCALENDAR`;
+
+const blob=
+
+new Blob(
+
+[calendarFile],
+
+{
+
+type:
+
+"text/calendar"
+
+}
+
+);
+
+const link=
+
+document.createElement("a");
+
+link.href=
+
+URL.createObjectURL(blob);
+
+link.download=
+
+"Zavier_Myles_Invitation.ics";
+
+link.click();
 
 });
 
@@ -234,136 +736,68 @@ alert("Invitation link copied!");
    GALLERY LIGHTBOX
 ===================================== */
 
-const galleryImages=document.querySelectorAll(".gallery img");
+document
 
-const overlay=document.createElement("div");
+.querySelectorAll(
 
-overlay.id="lightbox";
+".gallery-grid img, .featured-photo img"
 
-overlay.innerHTML="<img>";
+)
 
-document.body.appendChild(overlay);
+.forEach(image=>{
 
-const preview=overlay.querySelector("img");
+image.addEventListener(
 
-galleryImages.forEach(img=>{
+"click",
 
-img.addEventListener("click",()=>{
+()=>{
 
-preview.src=img.src;
+const overlay=
 
-overlay.classList.add("show");
+document.createElement("div");
+
+overlay.style.position="fixed";
+overlay.style.inset="0";
+overlay.style.background="rgba(0,0,0,.9)";
+overlay.style.display="flex";
+overlay.style.alignItems="center";
+overlay.style.justifyContent="center";
+overlay.style.zIndex="99999";
+overlay.style.cursor="zoom-out";
+
+const img=
+
+document.createElement("img");
+
+img.src=image.src;
+
+img.style.maxWidth="90%";
+img.style.maxHeight="90%";
+img.style.borderRadius="20px";
+img.style.boxShadow="0 25px 70px rgba(0,0,0,.45)";
+
+overlay.appendChild(img);
+
+overlay.addEventListener(
+
+"click",
+
+()=>{
+
+overlay.remove();
 
 });
 
+document.body.appendChild(
+
+overlay
+
+);
+
 });
-
-overlay.addEventListener("click",()=>{
-
-overlay.classList.remove("show");
 
 });
 
 /* =====================================
-   QR CODE ZOOM
+   END OF SCRIPT
 ===================================== */
-
-const qr=document.querySelector(".qr-image");
-
-if(qr){
-
-qr.addEventListener("click",()=>{
-
-preview.src=qr.src;
-
-overlay.classList.add("show");
-
-});
-
-}
-
-/* =====================================
-   GOLDEN CONFETTI
-===================================== */
-
-const introButton=document.getElementById("enterButton");
-
-introButton.addEventListener("click",()=>{
-
-for(let i=0;i<50;i++){
-
-const confetti=document.createElement("div");
-
-confetti.className="confetti";
-
-confetti.style.left=Math.random()*100+"vw";
-
-confetti.style.background=
-
-Math.random()>.5?
-
-"#FFD54F":
-
-"#FFF8DC";
-
-confetti.style.animationDuration=
-
-(3+Math.random()*3)+"s";
-
-document.body.appendChild(confetti);
-
-setTimeout(()=>{
-
-confetti.remove();
-
-},6000);
-
-}
-
-});
-
-/* =====================================
-   ENDING MESSAGE
-===================================== */
-
-const footer=document.querySelector("footer");
-
-const endObserver=new IntersectionObserver(entries=>{
-
-entries.forEach(entry=>{
-
-if(entry.isIntersecting){
-
-footer.animate([
-
-{
-
-opacity:.3,
-
-transform:"translateY(40px)"
-
-},
-
-{
-
-opacity:1,
-
-transform:"translateY(0)"
-
-}
-
-],{
-
-duration:1200,
-
-fill:"forwards"
-
-});
-
-}
-
-});
-
-});
-
-endObserver.observe(footer);
